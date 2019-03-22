@@ -166,13 +166,6 @@
   <h1>MQTT Tester</h1>
   <h3>Status: <span id="device-status">Offline</span></h3>
   <div class="led-box">
-    <div id="sts-led-show" class="led-orange-off"></div>
-    <p>Status</p>
-  </div>
-
-<br/><br/><br/><br/>      
-
-  <div class="led-box">
     <div id="led0-led-show" class="led-green-off"></div>
     <p>Valve 1</p>
   </div>
@@ -189,17 +182,23 @@
     <p>Valve 4</p>
   </div>
 
-<br/><br/><br/><br/><br/>
+<br/><br/><br/><br/>
   
-  <table width="60%">
+  <table width="100%">
     <!--tr>
       <th>Name</th>
       <th>Value</th>
     </tr-->
     <tr>
-      <td width="40%">Humidity</td>
-      <td width="30%" align="right" id="humd-val"></td>
-	  <td width="30%">&nbsp;&nbsp;%</td>
+      <td width="30%">Humidity</td>
+      <td width="20%" align="right" id="humd-val"></td>
+			<td width="10%">&nbsp;&nbsp;%</td>
+			<td width="40%" rowspan="5" align="center"> 
+				<div class="led-box">
+					<div id="sts-led-show" class="led-orange-off"></div>
+				</div>
+				<p>Status</p>
+			</td>
     </tr>
     <tr>
       <td>Temperature</td>
