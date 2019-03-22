@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>MQTT Client Example</title>
+  <title>Top Smart Farm</title>
   <style>
   .container {
 		background-size: cover;
@@ -164,25 +164,7 @@
 
 
   <h2>Top Smart Farm</h2>
-  <h3>Status: <span id="device-status">Offline</span></h3>
-  <div class="led-box">
-    <div id="led0-led-show" class="led-green-off"></div>
-    <p>Valve 1</p>
-  </div>
-  <div class="led-box">
-    <div id="led1-led-show" class="led-green-off"></div>
-    <p>Valve 2</p>
-  </div>
-  <div class="led-box">
-	<div id="led2-led-show" class="led-green-off"></div>
-	<p>Valve 3</p>
-  </div>
-  <div class="led-box">
-    <div id="led3-led-show" class="led-green-off"></div> 
-    <p>Valve 4</p>
-  </div>
-
-<br/><br/><br/><br/>
+  <h4>Status: <span id="device-status">Offline</span></h4>
   
   <table width="100%">
     <!--tr>
@@ -219,16 +201,34 @@
       <td></td>
       <td></td>
     </tr>
-  </table>	
-<br/>
+	</table>	
+	
+	<div class="led-box">
+    <div id="led0-led-show" class="led-green-off"></div>
+    <p>Valve 1</p>
+  </div>
+  <div class="led-box">
+    <div id="led1-led-show" class="led-green-off"></div>
+    <p>Valve 2</p>
+  </div>
+  <div class="led-box">
+	<div id="led2-led-show" class="led-green-off"></div>
+	<p>Valve 3</p>
+  </div>
+  <div class="led-box">
+    <div id="led3-led-show" class="led-green-off"></div> 
+    <p>Valve 4</p>
+  </div>
+
+<br/><br/><br/><br/>
  
-  <table width="90%">
+  <table width="100%">
     <tr>
-      <td width="18%">Valve 1</td>
-      <td width="42%">
+      <td width="17%">Valve 1</td>
+      <td width="43%">
         <button onclick="setLED(0, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
 		&nbsp;&nbsp;&nbsp;
-        <button onclick="setLED(0, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <button onclick="setLED(0, 'OFF')">&nbsp;OFF&nbsp;</button>
         <!--button onclick="askLED(0)">Ask</button-->
         <br/><br/>
       </td>
@@ -239,7 +239,7 @@
       <td>
         <button onclick="setLED(1, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
 		&nbsp;&nbsp;&nbsp;
-        <button onclick="setLED(1, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <button onclick="setLED(1, 'OFF')">&nbsp;OFF&nbsp;</button>
         <!--button onclick="askLED(1)">Ask</button-->
         <br/><br/>
       </td>
@@ -250,7 +250,7 @@
       <td>
         <button onclick="setLED(2, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
 		&nbsp;&nbsp;&nbsp;
-        <button onclick="setLED(2, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <button onclick="setLED(2, 'OFF')">&nbsp;OFF&nbsp;</button>
         <!--button onclick="askLED(2)">Ask</button-->
         <br/><br/>
       </td>
@@ -261,7 +261,7 @@
       <td>
         <button onclick="setLED(3, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
 		&nbsp;&nbsp;&nbsp;
-        <button onclick="setLED(3, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <button onclick="setLED(3, 'OFF')">&nbsp;OFF&nbsp;</button>
         <!--button onclick="askLED(3)">Ask</button-->
         <br/><br/>
       </td>
@@ -271,11 +271,11 @@
       <td colspan="3" align="center">
 	    <div id="dis-time">00:00</div>
 		<br/>
-        <button id="BTN_5MIN" onclick="processAuto(5)">&nbsp;&nbsp;Auto 5 minute&nbsp;&nbsp;</button>
-		&nbsp;&nbsp;&nbsp;
-        <button id="BTN_10MIN" onclick="processAuto(10)">&nbsp;&nbsp;Auto 10 minute&nbsp;&nbsp;</button>
-        &nbsp;&nbsp;&nbsp;
-		<button id="" onclick="clearAuto()">&nbsp;&nbsp;Clear&nbsp;&nbsp;</button>
+        <button id="BTN_5MIN" onclick="processAuto(5)">Auto 5 minute</button>
+		&nbsp;&nbsp;
+        <button id="BTN_10MIN" onclick="processAuto(10)">Auto 10 minute</button>
+        &nbsp;&nbsp;
+		<button id="" onclick="clearAuto()">&nbsp;Clear&nbsp;</button>
         <br/><br/>
       </td>
     </tr>
