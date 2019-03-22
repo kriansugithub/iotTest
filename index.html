@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MQTT Client Example</title>
+  <style>
+  .container {
+		background-size: cover;
+	  background: rgb(226,226,226); /* Old browsers */
+	  background: -moz-linear-gradient(top,  rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%); /* FF3.6+ */
+	  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(226,226,226,1)), color-stop(50%,rgba(219,219,219,1)), color-stop(51%,rgba(209,209,209,1)), color-stop(100%,rgba(254,254,254,1))); /* Chrome,Safari4+ */
+	  background: -webkit-linear-gradient(top,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* Chrome10+,Safari5.1+ */
+	  background: -o-linear-gradient(top,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* Opera 11.10+ */
+	  background: -ms-linear-gradient(top,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* IE10+ */
+	  background: linear-gradient(to bottom,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* W3C */
+	  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+	  padding: 20px;
+	}
+
+	.led-box {
+	  height: 30px;
+	  width: 25%;
+	  margin: 10px 0;
+	  float: left;
+	}
+
+	.led-box p {
+	  font-size: 12px;
+	  text-align: center;
+	  margin: 1em;
+	}
+
+	.led-red {
+	  margin: 0 auto;
+	  width: 24px;
+	  height: 24px;
+	  background-color: #F00;
+	  border-radius: 50%;
+	  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+	  -webkit-animation: blinkRed 0.5s infinite;
+	  -moz-animation: blinkRed 0.5s infinite;
+	  -ms-animation: blinkRed 0.5s infinite;
+	  -o-animation: blinkRed 0.5s infinite;
+	  animation: blinkRed 0.5s infinite;
+	}
+
+	@-webkit-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@-moz-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@-ms-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@-o-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+
+	.led-yellow {
+	  margin: 0 auto;
+	  width: 24px;
+	  height: 24px;
+	  background-color: #FF0;
+	  border-radius: 50%;
+	  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 12px;
+	  -webkit-animation: blinkYellow 1s infinite;
+	  -moz-animation: blinkYellow 1s infinite;
+	  -ms-animation: blinkYellow 1s infinite;
+	  -o-animation: blinkYellow 1s infinite;
+	  animation: blinkYellow 1s infinite;
+	}
+
+	@-webkit-keyframes blinkYellow {
+		from { background-color: #FF0; }
+		50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+		to { background-color: #FF0; }
+	}
+	@-moz-keyframes blinkYellow {
+		from { background-color: #FF0; }
+		50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+		to { background-color: #FF0; }
+	}
+	@-ms-keyframes blinkYellow {
+		from { background-color: #FF0; }
+		50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+		to { background-color: #FF0; }
+	}
+	@-o-keyframes blinkYellow {
+		from { background-color: #FF0; }
+		50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+		to { background-color: #FF0; }
+	}
+	@keyframes blinkYellow {
+		from { background-color: #FF0; }
+		50% { background-color: #AA0; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 0; }
+		to { background-color: #FF0; }
+	}
+
+	.led-green-off {
+	  margin: 0 auto;
+	  width: 24px;
+	  height: 24px;
+	  background-color: #517702;
+	  border-radius: 50%;
+	  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px;
+	}
+	
+	.led-green-on {
+	  margin: 0 auto;
+	  width: 24px;
+	  height: 24px;
+	  background-color: #ABFF00;
+	  border-radius: 50%;
+	  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+	}
+	
+
+	.led-blue {
+	  margin: 0 auto;
+	  width: 24px;
+	  height: 24px;
+	  background-color: #24E0FF;
+	  border-radius: 50%;
+	  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+	}
+	
+	.led-orange-on {
+	  margin: 0 auto;
+	  width: 24px;
+	  height: 24px;
+	  background-color: #fbb34d;
+		border-radius: 50%;
+		box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #7b6a02 0 -1px 9px, #f3a311 0 2px 14px;
+	}
+	
+	.led-orange-off {
+	  margin: 0 auto;
+	  width: 24px;
+	  height: 24px;
+	  background-color: #af7104;
+		border-radius: 50%;
+		box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px;
+	}
+  </style>
+</head>
+<body>
+
+
+
+  <h1>MQTT Tester</h1>
+  <h3>Status: <span id="device-status">Offline</span></h3>
+  <div class="led-box">
+    <div id="sts-led-show" class="led-orange-off"></div>
+    <p>Status</p>
+  </div>
+
+<br/><br/><br/><br/>      
+
+  <div class="led-box">
+    <div id="led0-led-show" class="led-green-off"></div>
+    <p>Valve 1</p>
+  </div>
+  <div class="led-box">
+    <div id="led1-led-show" class="led-green-off"></div>
+    <p>Valve 2</p>
+  </div>
+  <div class="led-box">
+	<div id="led2-led-show" class="led-green-off"></div>
+	<p>Valve 3</p>
+  </div>
+  <div class="led-box">
+    <div id="led3-led-show" class="led-green-off"></div>
+    <p>Valve 4</p>
+  </div>
+
+<br/><br/><br/><br/><br/>
+  
+  <table width="60%">
+    <!--tr>
+      <th>Name</th>
+      <th>Value</th>
+    </tr-->
+    <tr>
+      <td width="40%">Humidity</td>
+      <td width="30%" align="right" id="humd-val"></td>
+	  <td width="30%">&nbsp;&nbsp;%</td>
+    </tr>
+    <tr>
+      <td>Temperature</td>
+      <td align="right" id="temp-val"></td>
+	  <td>&nbsp;&nbsp;C</td>
+    </tr>
+    <tr>
+      <td>Flow Rate</td>
+      <td  align="right" id="flow-rate"></td>
+	  <td>&nbsp;&nbsp;L/m</td>
+    </tr>
+	<tr>
+      <td width="40%">Soil Humidity</td>
+      <td width="30%" align="right" id="soil-humd-val"></td>
+	  <td width="30%">&nbsp;&nbsp;%</td>
+    </tr>
+	<tr>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>	
+<br/>
+ 
+  <table width="90%">
+    <tr>
+      <td width="18%">Valve 1</td>
+      <td width="42%">
+        <button onclick="setLED(0, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
+		&nbsp;&nbsp;&nbsp;
+        <button onclick="setLED(0, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <!--button onclick="askLED(0)">Ask</button-->
+        <br/><br/>
+      </td>
+	  <td width="40%"><span id="led0-status"></span></td>
+    </tr>
+    <tr>
+      <td>Valve 2</td>
+      <td>
+        <button onclick="setLED(1, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
+		&nbsp;&nbsp;&nbsp;
+        <button onclick="setLED(1, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <!--button onclick="askLED(1)">Ask</button-->
+        <br/><br/>
+      </td>
+	  <td><span id="led1-status"></span></td>
+    </tr>
+    <tr>
+      <td>Valve 3</td>
+      <td>
+        <button onclick="setLED(2, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
+		&nbsp;&nbsp;&nbsp;
+        <button onclick="setLED(2, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <!--button onclick="askLED(2)">Ask</button-->
+        <br/><br/>
+      </td>
+	  <td><span id="led2-status"></span></td>
+    </tr>
+	<tr>
+      <td>Valve 4</td>
+      <td>
+        <button onclick="setLED(3, 'ON')">&nbsp;&nbsp;ON&nbsp;&nbsp;</button>
+		&nbsp;&nbsp;&nbsp;
+        <button onclick="setLED(3, 'OFF')">&nbsp;&nbsp;OFF&nbsp;&nbsp;</button>
+        <!--button onclick="askLED(3)">Ask</button-->
+        <br/><br/>
+      </td>
+	  <td><span id="led3-status"></span></td>
+    </tr>
+	<tr>
+      <td colspan="3" align="center">
+	    <div id="dis-time">00:00</div>
+		<br/>
+        <button id="BTN_5MIN" onclick="processAuto(5)">&nbsp;&nbsp;Auto 5 minute&nbsp;&nbsp;</button>
+		&nbsp;&nbsp;&nbsp;
+        <button id="BTN_10MIN" onclick="processAuto(10)">&nbsp;&nbsp;Auto 10 minute&nbsp;&nbsp;</button>
+        &nbsp;&nbsp;&nbsp;
+		<button id="" onclick="clearAuto()">&nbsp;&nbsp;Clear&nbsp;&nbsp;</button>
+        <br/><br/>
+      </td>
+    </tr>
+  </table>
+  <script src="mqtt.min.js"></script>
+  <script>
+    // mqtts is using mqtt over tls
+    var client = mqtt.connect('mqtts://m13.cloudmqtt.com:36445/', {
+      username: 'mfspevgx',
+      password: 'loi9WVCUWLcZ',
+    })
+    client.on('connect', function (data) {
+      console.log('connected')
+      document.getElementById('device-status').innerHTML = 'Connected'
+    })
+    client.on('offline', function (data) {
+      console.log('offline')
+      document.getElementById('device-status').innerHTML = 'Offline'
+    })
+    client.subscribe("Humidity")
+    client.subscribe("Temperature")
+    client.subscribe("SoilHumidity")
+	client.subscribe("FlowRate")
+	client.subscribe("LED0_STS")
+	client.subscribe("LED1_STS")
+	client.subscribe("LED2_STS")
+	client.subscribe("LED3_STS")
+	client.subscribe("LED0_RTN")
+	client.subscribe("LED1_RTN")
+	client.subscribe("LED2_RTN")
+	client.subscribe("LED3_RTN")
+    for(i=0;i<4;i++) {
+      client.subscribe(`LED${i}`)
+    }
+    client.on('message', function (topic, payload) {
+      
+	 // alert(topic+' '+payload);
+	  if(topic == 'Humidity') {
+        document.getElementById('humd-val').innerHTML = payload;
+		toggleLedSts();
+      } else if (topic == 'Temperature') {
+        document.getElementById('temp-val').innerHTML = payload;
+		toggleLedSts();
+      } else if (topic == 'FlowRate') {
+        document.getElementById('flow-rate').innerHTML = payload;
+		toggleLedSts();
+      } else if (topic == 'SoilHumidity') {
+        document.getElementById('soil-humd-val').innerHTML = payload;
+		toggleLedSts();
+      } else if (topic == 'LED0' && (payload == 'ON' || payload == 'OFF' || payload == '?')) {
+        document.getElementById('led0-status').innerHTML = 'sending... '+payload;
+      } else if (topic == 'LED1' && (payload == 'ON' || payload == 'OFF' || payload == '?')) {
+        document.getElementById('led1-status').innerHTML = 'sending... '+payload;
+	  } else if (topic == 'LED2' && (payload == 'ON' || payload == 'OFF' || payload == '?')) {
+        document.getElementById('led2-status').innerHTML = 'sending... '+payload;
+	  } else if (topic == 'LED3' && (payload == 'ON' || payload == 'OFF' || payload == '?')) {
+        document.getElementById('led3-status').innerHTML = 'sending... '+payload;	
+      } else if (topic == 'LED0_RTN') {
+        document.getElementById('led0-status').innerHTML = payload;
+		toggleLedSts();
+      } else if (topic == 'LED1_RTN') {
+        document.getElementById('led1-status').innerHTML = payload;
+		toggleLedSts();
+	  } else if (topic == 'LED2_RTN') {
+        document.getElementById('led2-status').innerHTML = payload;
+		toggleLedSts();	
+	  } else if (topic == 'LED3_RTN') {
+        document.getElementById('led3-status').innerHTML = payload;
+		toggleLedSts();	
+      } else if (topic == 'LED0_STS') {
+		if(payload=='ON'){
+			document.getElementById('led0-led-show').className = "led-green-on";
+		}else{
+			document.getElementById('led0-led-show').className = "led-green-off";
+		}
+		toggleLedSts();
+      } else if (topic == 'LED1_STS') {
+		if(payload=='ON'){
+			document.getElementById('led1-led-show').className = "led-green-on";
+		}else{
+			document.getElementById('led1-led-show').className = "led-green-off";
+		}
+		toggleLedSts();
+      } else if (topic == 'LED2_STS') {
+		if(payload=='ON'){
+			document.getElementById('led2-led-show').className = "led-green-on";
+		}else{
+			document.getElementById('led2-led-show').className = "led-green-off";
+		}
+		toggleLedSts();
+      } else if (topic == 'LED3_STS') {
+		if(payload=='ON'){
+			document.getElementById('led3-led-show').className = "led-green-on";
+		}else{
+			document.getElementById('led3-led-show').className = "led-green-off";
+		}
+		toggleLedSts();
+      }   
+	  
+
+	  //toggleLedSts();
+
+      console.log(`${topic}: ${payload} ${Date.now()}`)
+    })
+	
+	function toggleLedSts(){
+		  if(document.getElementById('sts-led-show').className == 'led-orange-off'){
+			document.getElementById('sts-led-show').className = 'led-orange-on';
+		  }else{
+			document.getElementById('sts-led-show').className = 'led-orange-off';
+		  }
+	}
+
+    function setLED(ledNum, action) {
+      client.publish(`LED${ledNum}`, action)
+      console.log(`LED${ledNum}: ${action}`)
+    }
+
+    
+    function askLED(ledNum) {
+      client.publish(`LED${ledNum}`, '?')
+    }
+	
+	
+	var intv;
+	
+	function processAuto(min) {
+	
+		document.getElementById('BTN_5MIN').disabled = true;
+		document.getElementById('BTN_10MIN').disabled = true;
+		var timeMin = 0;
+		var timeSec = 0;
+		var valid = false;
+		intv = setInterval(function(){
+		   timeSec++;
+		   if(timeSec > 59){
+				timeMin++;
+				timeSec = 0;
+		   }
+		   document.getElementById('dis-time').innerHTML = timeMin+' : '+timeSec;
+		   
+		   if(timeMin >= min*4){
+				if(document.getElementById('led3-led-show').className == 'led-green-on'){
+					client.publish('LED3', 'OFF');
+					document.getElementById('BTN_5MIN').disabled = false;
+					document.getElementById('BTN_10MIN').disabled = false;
+				}
+				else{
+					clearAuto();
+				}
+		   }
+		   else if(timeMin >= min*3){
+				if(document.getElementById('led2-led-show').className == 'led-green-on'){
+					client.publish('LED2', 'OFF');
+				}
+				if(document.getElementById('led3-led-show').className == 'led-green-off'){
+					client.publish('LED3', 'ON');
+				}
+		   }
+		   else if(timeMin >= min*2){
+				if(document.getElementById('led1-led-show').className == 'led-green-on'){
+					client.publish('LED1', 'OFF');
+				}
+				if(document.getElementById('led2-led-show').className == 'led-green-off'){
+					client.publish('LED2', 'ON');
+				}
+		   }
+		   else if(timeMin >= min){
+				if(document.getElementById('led0-led-show').className == 'led-green-on'){
+					client.publish('LED0', 'OFF');
+				}
+				if(document.getElementById('led1-led-show').className == 'led-green-off'){
+					client.publish('LED1', 'ON');
+				}
+		   }
+		   else{
+				if(document.getElementById('led0-led-show').className == 'led-green-off'){
+					client.publish('LED0', 'ON');
+				}
+		   }
+		   
+		}, 1000);
+		
+	/*
+      client.publish('LED0', 'ON');
+
+	  
+	  
+	  setTimeout(function(){ 
+		client.publish('LED0', 'OFF');
+		client.publish('LED1', 'ON');
+		
+		setTimeout(function(){ 
+			client.publish('LED1', 'OFF');
+			client.publish('LED2', 'ON');
+			
+			setTimeout(function(){ 
+				client.publish('LED2', 'OFF');
+				client.publish('LED3', 'ON');
+				
+				setTimeout(function(){ 
+					client.publish('LED3', 'OFF');
+					document.getElementById('BTN_5MIN').disabled = false;
+					document.getElementById('BTN_10MIN').disabled = false;
+				}, 1000*60*min);//5 นาที
+				
+			}, 1000*60*min);//5 นาที
+			
+		}, 1000*60*min);//5 นาที
+		
+	  }, 1000*60*min);//5 นาที
+	  
+	  */
+    }
+	
+	function clearAuto(){
+		clearInterval(intv);
+		document.getElementById('BTN_5MIN').disabled = false;
+		document.getElementById('BTN_10MIN').disabled = false;
+		document.getElementById('dis-time').innerHTML = '00:00';
+	}
+
+  </script>
+</body>
+</html>
