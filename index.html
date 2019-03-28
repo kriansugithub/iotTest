@@ -271,11 +271,11 @@
       <td colspan="3" align="center">
 	    <div id="dis-time">00:00</div>
 		<br/>
-        <button id="BTN_5MIN" onclick="processAuto(5)">Auto 5 minute</button>
+        <button id="BTN_5MIN" onclick="setRunAuto('5')">Auto 5 minute</button>
 		&nbsp;&nbsp;
-        <button id="BTN_10MIN" onclick="processAuto(10)">Auto 10 minute</button>
+        <button id="BTN_10MIN" onclick="setRunAuto('10')">Auto 10 minute</button>
         &nbsp;&nbsp;
-		<button id="" onclick="clearAuto()">&nbsp;Clear&nbsp;</button>
+		<button id="" onclick="setRunAuto('0')">&nbsp;Clear&nbsp;</button>
         <br/><br/>
       </td>
     </tr>
@@ -307,6 +307,7 @@
 	client.subscribe("LED1_RTN")
 	client.subscribe("LED2_RTN")
 	client.subscribe("LED3_RTN")
+	client.subscribe("RUNAUTO_STS")
     for(i=0;i<4;i++) {
       client.subscribe(`LED${i}`)
     }
@@ -373,7 +374,20 @@
 			document.getElementById('led3-led-show').className = "led-green-off";
 		}
 		toggleLedSts();
+      }  else if (topic == 'RUNAUTO_STS') {
+	    var min = 0;
+		var sec = payload;
+	    while(sec >= 60){
+			if(sec >= 60){
+				sec = sec - 60;
+				min++;
+			}
+		}
+
+		document.getElementById('dis-time').innerHTML = min+' : '+sec;
+		toggleLedSts();
       }   
+	  
 	  
 
 	  //toggleLedSts();
@@ -399,6 +413,11 @@
       client.publish(`LED${ledNum}`, '?')
     }
 	
+	function setRunAuto(action) {
+	document.getElementById('dis-time').innerHTML = '00:00';
+      client.publish('RUNAUTO', action);
+      console.log(`RUNAUTO: ${action}`)
+    }
 	
 	var intv;
 	
