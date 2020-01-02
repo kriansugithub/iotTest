@@ -283,9 +283,13 @@
   <script src="mqtt.min.js"></script>
   <script>
     // mqtts is using mqtt over tls
-    var client = mqtt.connect('mqtts://m13.cloudmqtt.com:36445/', {
-      username: 'mfspevgx',
-      password: 'loi9WVCUWLcZ',
+    //var client = mqtt.connect('mqtts://m13.cloudmqtt.com:36445/', {
+    //  username: 'mfspevgx',
+    //  password: 'loi9WVCUWLcZ',
+    //})
+	var client = mqtt.connect('mqtts://tailor.cloudmqtt.com:32014/', {
+      username: 'brdjmprz',
+      password: 'JKGtuvbz0XWN',
     })
     client.on('connect', function (data) {
       console.log('connected')
@@ -313,7 +317,7 @@
     }
     client.on('message', function (topic, payload) {
       
-	 // alert(topic+' '+payload);
+	  //alert(topic+' '+payload);
 	  if(topic == 'Humidity') {
         document.getElementById('humd-val').innerHTML = payload;
 		toggleLedSts();
