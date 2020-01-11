@@ -164,8 +164,7 @@
 
 
   <h2>Top Smart Farm</h2>
-  <h3>Main: <span id="device-status">Offline</span></h3>
-  <h3>Sensor: <span id="device-status2">Offline</span></h3>
+  <h3>Status: <span id="device-status">Offline</span></h3>
   
   <table width="100%">
     <!--tr>
@@ -196,11 +195,6 @@
 	<tr>
       <td width="40%">Soil Humidity</td>
       <td width="30%" align="right" id="soil-humd-val"></td>
-	  <td width="30%">&nbsp;&nbsp;%</td>
-    </tr>
-	<tr>
-      <td width="40%">Soil Humidity2</td>
-      <td width="30%" align="right" id="soil-humd2-val"></td>
 	  <td width="30%">&nbsp;&nbsp;%</td>
     </tr>
 	<tr>
@@ -526,30 +520,6 @@
 		document.getElementById('BTN_10MIN').disabled = false;
 		document.getElementById('dis-time').innerHTML = '00:00';
 	}
-	
-	
-	var client2 = mqtt.connect('mqtts://tailor.cloudmqtt.com:31024/', {
-      username: 'xlqgozsd',
-      password: 'V6JapfUPuwqH',
-    })
-    client2.on('connect', function (data) {
-      console.log('connected')
-      document.getElementById('device-status2').innerHTML = 'Connected'
-    })
-    client2.on('offline', function (data) {
-      console.log('offline')
-      document.getElementById('device-status2').innerHTML = 'Offline'
-    })
-    client2.subscribe("SoilHumidity2")
-    client2.on('message', function (topic, payload) {
-      
-	  //alert(topic+' '+payload);
-	 if (topic == 'SoilHumidity2') {
-        document.getElementById('soil-humd2-val').innerHTML = payload;
-		toggleLedSts();
-      }
-      console.log(`${topic}: ${payload} ${Date.now()}`)
-    })
 
   </script>
 </body>
