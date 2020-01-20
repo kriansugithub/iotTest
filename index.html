@@ -195,10 +195,20 @@
       <td  align="right" id="flow-rate"></td>
 	  <td>&nbsp;&nbsp;L/m</td>
     </tr>
-	<tr>
+	<!--tr>
       <td width="40%">ความชื้นดิน</td>
       <td width="30%" align="right" id="soil-humd-val"></td>
 	  <td width="30%">&nbsp;&nbsp;%</td>
+    </tr-->
+	<tr>
+      <td width="40%">ความชื้นอากาศ 1</td>
+      <td width="30%" align="right" id="humd2-val"></td>
+	  <td width="30%">&nbsp;&nbsp;%</td>
+    </tr>
+	<tr>
+      <td width="40%">อุณหภูมิ 1</td>
+      <td width="30%" align="right" id="temp2-val"></td>
+	  <td width="30%">&nbsp;&nbsp;C</td>
     </tr>
 	<tr>
       <td width="40%">ความชื้นดิน 1</td>
@@ -309,7 +319,7 @@
     })
     client.subscribe("Humidity")
     client.subscribe("Temperature")
-    client.subscribe("SoilHumidity")
+    //client.subscribe("SoilHumidity")
 	client.subscribe("FlowRate")
 	client.subscribe("LED0_STS")
 	client.subscribe("LED1_STS")
@@ -335,9 +345,9 @@
       } else if (topic == 'FlowRate') {
         document.getElementById('flow-rate').innerHTML = payload;
 		toggleLedSts();
-      } else if (topic == 'SoilHumidity') {
-        document.getElementById('soil-humd-val').innerHTML = payload;
-		toggleLedSts();
+      //} else if (topic == 'SoilHumidity') {
+      //  document.getElementById('soil-humd-val').innerHTML = payload;
+		//toggleLedSts();
       } else if (topic == 'LED0' && (payload == 'ON' || payload == 'OFF' || payload == '?')) {
         document.getElementById('led0-status').innerHTML = 'sending... '+payload;
       } else if (topic == 'LED1' && (payload == 'ON' || payload == 'OFF' || payload == '?')) {
@@ -542,11 +552,21 @@
       console.log('offline')
       document.getElementById('device-status2').innerHTML = 'Offline'
     })
-    client2.subscribe("SoilHumidity2")
+    client2.subscribe("Humidity2")
+	client2.subscribe("Temperature2")
+	client2.subscribe("SoilHumidity2")
     client2.on('message', function (topic, payload) {
       
 	  //alert(topic+' '+payload);
-	 if (topic == 'SoilHumidity2') {
+	 if (topic == 'Humidity2') {
+        document.getElementById('humd2-val').innerHTML = payload;
+		toggleLedSts();
+      }
+	  if (topic == 'Temperature2') {
+        document.getElementById('temp2-val').innerHTML = payload;
+		toggleLedSts();
+      }
+	  if (topic == 'SoilHumidity2') {
         document.getElementById('soil-humd2-val').innerHTML = payload;
 		toggleLedSts();
       }
